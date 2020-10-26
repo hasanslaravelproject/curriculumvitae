@@ -7,7 +7,7 @@
 //php artisan make:model $1 -m
 //php artisan make:controller $1Controller
 
-//migration
+//migration--
 <?php
 
 use Illuminate\Database\Migrations\Migration;
