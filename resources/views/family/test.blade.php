@@ -4,29 +4,95 @@
 //$3=filename
 //$4=imagefoldername
 //$9=field1name
+//php artisan make:model $1 -m
+//php artisan make:controller $1Controller
+
+//migration
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class Create$1sTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('$2s', function (Blueprint $table) {
+            $table->id();
+            $table->string('$9');
+            $table->string('s_image');
+            $table->string('s_id');
+            $table->string('status');
+
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('$2s');
+    }
+}
+//route
+Route::get('$2s', [\App\Http\Controllers\$2Controller::class, 'index']);
+Route::post('$2s/create', [\App\Http\Controllers\$2Controller::class, 'create']);
+Route::get('$2s/edit/{id}', [\App\Http\Controllers\$2Controller::class, 'edit']);
+Route::post('$2s/update', [\App\Http\Controllers\$2Controller::class, 'update']);
+Route::post('$2s/delete', [\App\Http\Controllers\$2Controller::class, 'delete']);
+Route::get('$2s/status/{id}', [\App\Http\Controllers\$2Controller::class, 'status']);
+
+//model----------------------------------
+
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class $1 extends Model
+{
+    use HasFactory;
+    protected $fillable = [
+        '$9','s_image','s_id','status'
+    ];
+}
+//controller
+
 namespace App\Http\Controllers;
 
-use App\Models\$$1;
+use App\Models\$1;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
-class $$1Controller extends Controller
+class $1Controller extends Controller
 {
     public function index()
     {
-        $$abcs = $1::all();
+        $abcs = $1::all();
         return view('$2.$3', compact('abcs'));
-        return Response()->json($$abcs);
+        return Response()->json($abcs);
     }
 
-    public function create(Request $$request)
+    public function create(Request $request)
     {
 
-$$std= $1::orderBy('created_at', 'desc')->first();
-        if ($$std) {
-            $$stid = $$std->s_id +1;
+$std= $1::orderBy('created_at', 'desc')->first();
+        if ($std) {
+            $stid = $std->s_id +1;
     }else{
-            $$stid = 1000;
+            $stid = 1000;
 
     }
         $img= "";
@@ -49,55 +115,55 @@ $$std= $1::orderBy('created_at', 'desc')->first();
             "success" => true,
             "title" => "Success!!!",
             "status" => "success",
-            "info" => $$stid,
+            "info" => $stid,
         ]);
     }
-    public function delete(Request $$request)
+    public function delete(Request $request)
     {
-        $$id = $$request->input('id');
-        $$std= $1::find($$id);
-        $$image_path = "backend/image/$4/$$std->s_image";
-        if(File::exists($$image_path)) {
-            File::delete($$image_path);
+        $id = $request->input('id');
+        $std= $1::find($id);
+        $image_path = "backend/image/$4/$std->s_image";
+        if(File::exists($image_path)) {
+            File::delete($image_path);
         }
-        $1::destroy($$id);
+        $1::destroy($id);
         return Response()->json([
             "success" => true,
             "title" => "Success!!!",
             "status" => "success",
-            "info" => $$id,
+            "info" => $id,
         ]);
     }
 
-    public function edit($$id)
+    public function edit($id)
     {
-        $$stu = $1::find($$id);
+        $stu = $1::find($id);
         //return view('hasan.index', compact('stu'));
         return Response()->json([
             "success" => true,
             "title" => "Success!!!",
             "status" => "success",
             "m" => "$2",
-            "ms" => $$stu,
+            "ms" => $stu,
         ]);
     }
-    public function update(Request $$request)
+    public function update(Request $request)
     {
-        $$id = $$request->input('inid');
-        $$stu = $1::find($$id);
-        $$img= "";
-        if ($$image = $$request->file('s_image')) {
-            $$name = $$stu->s_id;
-            $$extension = $$image->getClientOriginalExtension();
-            $$imageName = $$name . '.' . $$extension;
-            $$path = public_path('backend/image/$4');
-            $$image->move($$path, $$imageName);
-            $$img = $$imageName;
+        $id = $request->input('inid');
+        $stu = $1::find($id);
+        $img= "";
+        if ($image = $request->file('s_image')) {
+            $name = $stu->s_id;
+            $extension = $image->getClientOriginalExtension();
+            $imageName = $name . '.' . $extension;
+            $path = public_path('backend/image/$4');
+            $image->move($path, $imageName);
+            $img = $imageName;
         }
 
-        $1::where('id',$$id)->update([
-            '$9' => strtoupper( $$request->input('$9')),
-            's_image' => $$img,
+        $1::where('id',$id)->update([
+            '$9' => strtoupper( $request->input('$9')),
+            's_image' => $img,
         ]);
         return Response()->json([
             "success" => true,
@@ -105,17 +171,17 @@ $$std= $1::orderBy('created_at', 'desc')->first();
             "status" => "success",
         ]);
     }
-    public function status($$id){
-        $$std = $1::find($$id);
-        if ($$std->status == 1){
-            $$t = "Deactivated";
+    public function status($id){
+        $std = $1::find($id);
+        if ($std->status == 1){
+            $t = "Deactivated";
 
-            $1::where('id',$$id)->update([
+            $1::where('id',$id)->update([
                 'status' =>  0,
             ]);
         }else{
-            $$t = "Activated";
-            $1::where('id',$$id)->update([
+            $t = "Activated";
+            $1::where('id',$id)->update([
                 'status' =>  1,
             ]);
         }
@@ -123,21 +189,16 @@ $$std= $1::orderBy('created_at', 'desc')->first();
             "success" => true,
             "title" => "Success!!!",
             "status" => "success",
-            "ms" => $$std->status,
-            "info" => "$1 status Changed to ".$$t,
+            "ms" => $std->status,
+            "info" => "$1 status Changed to ".$t,
 
         ]);
     }
 }
 
 
-Route::get('$2s', [\App\Http\Controllers\$2Controller::class, 'index']);
-Route::post('$2s/create', [\App\Http\Controllers\$2Controller::class, 'create']);
-Route::get('$2s/edit/{id}', [\App\Http\Controllers\$2Controller::class, 'edit']);
-Route::post('$2s/update', [\App\Http\Controllers\$2Controller::class, 'update']);
-Route::post('$2s/delete', [\App\Http\Controllers\$2Controller::class, 'delete']);
-Route::get('$2s/status/{id}', [\App\Http\Controllers\$2Controller::class, 'status']);
 
+//ajax
  $(document).ready(function (){
      var url = $('#url').val();
      $('.dtable').DataTable();
@@ -308,43 +369,9 @@ alert(my_url);
     });
  });
 
-<?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 
-class Create$1sTable extends Migration
-{
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
-        Schema::create('$2s', function (Blueprint $$table) {
-            $$table->id();
-            $$table->string('$9name');
-            $$table->string('s_image');
-            $$table->string('s_id');
-            $$table->string('status');
-
-            $$table->timestamps();
-        });
-    }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::dropIfExists('$2s');
-    }
-}
-
+//index.blade.php
 @extends('helper.file')
 @section('content')
     <div class="row ">
@@ -375,9 +402,9 @@ class Create$1sTable extends Migration
                         @foreach ($abcs as $st)
                             <tr>
                                 <td>{{$s++ }}</td>
-                                <td><img src="{{asset('backend/image/im1/'.$st->s_image)}}" alt="" width="50"></td>
+                                <td><img src="{{asset('backend/image/$4/'.$st->s_image)}}" alt="" width="50"></td>
 
-                                <td>{{ $st->name }}</td>
+                                <td>{{ $st->$9 }}</td>
                                 <td>{{ $st->s_id }}</td>
                                 <td>
                                 <?php
