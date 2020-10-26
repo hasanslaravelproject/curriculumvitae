@@ -17,8 +17,9 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::get('api/students', [\App\Http\Controllers\StudentController::class, 'index']);
-Route::post('api/students/create', [\App\Http\Controllers\StudentController::class, 'create']);
+Route::get('students', [\App\Http\Controllers\TestController::class, 'index']);
+Route::get('students/{id}', [\App\Http\Controllers\TestController::class, 'getdetails']);
+Route::post('students/create', [\App\Http\Controllers\StudentController::class, 'create']);
 Route::get('students/edit/{id}', [\App\Http\Controllers\StudentController::class, 'edit']);
 Route::post('students/update', [\App\Http\Controllers\StudentController::class, 'update']);
 Route::post('students/delete', [\App\Http\Controllers\StudentController::class, 'delete']);

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class AllController extends Controller
 {
@@ -16,4 +18,12 @@ class AllController extends Controller
 
        return view('all.index', compact('abcs'));
    }
+   public function login(Request $request){
+
+   }
+    public function logout(){
+        //session(['st' => "No"]);
+        Session::flush();
+        return redirect()->route('login');
+    }
 }

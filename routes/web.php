@@ -13,32 +13,37 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+/*Route::get('/', function () {
     return view('welcome');
-});
+});*/
+
+Route::group(['middleware' => ['checkstudent']], function () {
 //student:
-Route::get('students', [\App\Http\Controllers\StudentController::class, 'index']);
+Route::get('students', [\App\Http\Controllers\StudentController::class, 'index'])->name('student');
 Route::post('students/create', [\App\Http\Controllers\StudentController::class, 'create']);
 Route::get('students/edit/{id}', [\App\Http\Controllers\StudentController::class, 'edit']);
 Route::post('students/update', [\App\Http\Controllers\StudentController::class, 'update']);
 Route::post('students/delete', [\App\Http\Controllers\StudentController::class, 'delete']);
 Route::get('students/status/{id}', [\App\Http\Controllers\StudentController::class, 'status']);
-
+});
+Route::group(['middleware' => ['checkadmin']], function () {
 //student Details:
-Route::get('studentdetail', [\App\Http\Controllers\FamilyInfoController::class, 'index']);
-Route::post('studentdetail/create', [\App\Http\Controllers\StudentdetailController::class, 'create']);
-Route::get('studentdetail/edit/{id}', [\App\Http\Controllers\StudentdetailController::class, 'edit']);
-Route::post('studentdetail/update', [\App\Http\Controllers\StudentdetailController::class, 'update']);
-Route::post('studentdetail/delete', [\App\Http\Controllers\StudentdetailController::class, 'delete']);
-Route::get('studentdetail/status/{id}', [\App\Http\Controllers\StudentController::class, 'status']);
-
+    Route::get('studentdetail', [\App\Http\Controllers\FamilyInfoController::class, 'index'])->name('admin');
+    Route::post('studentdetail/create', [\App\Http\Controllers\StudentdetailController::class, 'create']);
+    Route::get('studentdetail/edit/{id}', [\App\Http\Controllers\StudentdetailController::class, 'edit']);
+    Route::post('studentdetail/update', [\App\Http\Controllers\StudentdetailController::class, 'update']);
+    Route::post('studentdetail/delete', [\App\Http\Controllers\StudentdetailController::class, 'delete']);
+    Route::get('studentdetail/status/{id}', [\App\Http\Controllers\StudentController::class, 'status']);
+});
+Route::group(['middleware' => ['parent']], function () {
 //family
-Route::get('family', [\App\Http\Controllers\FamilyInfoController::class, 'index']);
-Route::post('family/create', [\App\Http\Controllers\FamilyInfoController::class, 'create']);
-Route::get('family/edit/{id}', [\App\Http\Controllers\FamilyInfoController::class, 'edit']);
-Route::post('family/update', [\App\Http\Controllers\FamilyInfoController::class, 'update']);
-Route::post('family/delete', [\App\Http\Controllers\FamilyInfoController::class, 'delete']);
-Route::get('family/status/{id}', [\App\Http\Controllers\FamilyInfoController::class, 'status']);
+    Route::get('family', [\App\Http\Controllers\FamilyInfoController::class, 'index'])->name('parent');
+    Route::post('family/create', [\App\Http\Controllers\FamilyInfoController::class, 'create']);
+    Route::get('family/edit/{id}', [\App\Http\Controllers\FamilyInfoController::class, 'edit']);
+    Route::post('family/update', [\App\Http\Controllers\FamilyInfoController::class, 'update']);
+    Route::post('family/delete', [\App\Http\Controllers\FamilyInfoController::class, 'delete']);
+    Route::get('family/status/{id}', [\App\Http\Controllers\FamilyInfoController::class, 'status']);
+});
 //all
 Route::get('all', [\App\Http\Controllers\AllController::class, 'index']);
 Route::post('all/create', [\App\Http\Controllers\AllController::class, 'create']);
@@ -47,3 +52,9 @@ Route::post('all/update', [\App\Http\Controllers\AllController::class, 'update']
 Route::post('all/delete', [\App\Http\Controllers\AllController::class, 'delete']);
 Route::get('all/status/{id}', [\App\Http\Controllers\AllController::class, 'status']);
 
+
+Route::get('/', function () {
+    return view('all.login');
+})->name('login');
+Route::post('login', [\App\Http\Controllers\AllController::class, 'login'])->middleware('checklogin');
+Route::get('logout', [\App\Http\Controllers\AllController::class, 'logout'])->name('logout');

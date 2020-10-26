@@ -6,6 +6,8 @@
                 <div class="card-header bg-primary">
 
                     <div class="text-right">
+                        <a href="{{URL::to('logout')}}" button class="btn btn-danger" >logout</button>></a>
+
                         <button type="button" class="btn btn-secondary" id="addmodal">Add New</button>
                     </div>
                 </div>

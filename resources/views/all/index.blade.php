@@ -4,6 +4,7 @@
         <div class="col-md-10 offset-1 ">
             <div class="card mb-3">
                 <div class="card-header bg-primary">
+                    <a href="{{URL::to('logout')}}" button class="btn btn-danger" >logout</button>></a>
 
                     <div class="text-right">
                         <button type="button" class="btn btn-secondary" id="addmodal">Add New</button>

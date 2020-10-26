@@ -12,7 +12,7 @@ class StudentController extends Controller
     {
         $abcs = Student::all();
         return view('student.index', compact('abcs'));
-        return Response()->json($abcs);
+
     }
 
     public function create(Request $request)
