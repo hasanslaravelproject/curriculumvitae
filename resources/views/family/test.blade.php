@@ -105,7 +105,7 @@ $std= $1::orderBy('created_at', 'desc')->first();
         $image->move($path, $imageName);
         $img = $imageName;
     }
-        Student::create([
+        $1::create([
             '$9' => strtoupper( $request->input('$9')),
             's_image' =>  $img,
             's_id' =>  $stid,
